@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/enhanced-button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Loader2 } from "lucide-react"
@@ -7,12 +7,26 @@ import { useToast } from "@/hooks/use-toast"
 const Hero = () => {
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
   const { toast } = useToast()
+
+  const messages = [
+    "i am going for the vacation for 15 days please handle the sales bro",
+    "i am going through a breakup can you handle my poc see you after some time"
+  ]
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMessageIndex((prev) => (prev + 1) % messages.length)
+    }, 4000) // Change message every 4 seconds
+
+    return () => clearInterval(interval)
+  }, [messages.length])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,14 +67,26 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center pt-20">
       {/* Content */}
       <div className="container mx-auto px-6 text-center">
-        <div className="max-w-2xl mx-auto animate-fade-in">
-          {/* Main Headline */}
-          <h1 className="text-6xl md:text-8xl font-bold mb-12 leading-tight">
-            hey{" "}
+        <div className="max-w-4xl mx-auto animate-fade-in">
+          {/* Company Name */}
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
             <span className="gradient-text text-glow">
-              kzaal
+              Kzaal
             </span>
           </h1>
+
+          {/* Animated Message */}
+          <div className="mb-12">
+            <p className="text-lg md:text-xl text-muted-foreground mb-4">
+              <span className="text-foreground">hey kzaal</span>{" "}
+              <span 
+                key={currentMessageIndex}
+                className="animate-fade-in text-accent"
+              >
+                {messages[currentMessageIndex]}
+              </span>
+            </p>
+          </div>
 
           {/* Waitlist Form */}
           <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-8">
