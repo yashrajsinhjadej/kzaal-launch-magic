@@ -70,7 +70,7 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto animate-fade-in">
           {/* Company Name */}
           <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-            <span className="gradient-text text-glow">
+            <span className="gradient-text text-glow font-orbitron font-black tracking-wider">
               Kzaal
             </span>
           </h1>
